@@ -1,13 +1,14 @@
 /* Radial Status */                                         @import url("https://discordstyles.github.io/RadialStatus/dist/RadialStatus.css");
 /* Better Status Picker (thanks dablulite) */               @import url("https://dablulite.github.io/css-snippets/BetterStatusPicker/import.css");
 /* Spotify Activity Redesign (thanks dablulite) */          @import url("https://dablulite.github.io/css-snippets/SpotifyActivityRedesign/import.css");
-/* Custom Timestamps (thanks seele1306) */                  @import url(https://raw.githubusercontent.com/SEELE1306/CSS-Snippets/main/MessageUltilities/TimestampBubbles/import.css);
 /* Custom Usernames (thanks seele1306) */                   @import url(https://raw.githubusercontent.com/SEELE1306/CSS-Snippets/main/MessageUltilities/Username/import.css);
 
 :root {
-    --dc-opaque-1: rgba(50, 50, 50, 0.4);
+    --dc-opaque-1: rgba(50, 50, 50, 0.5);
+    --dc-opaque-2: rgba(60, 60, 60, 0.5);
 
-    --dc-userarea-background: var(--dc-opaque-1);
+    --dc-userarea-background-primary: var(--dc-opaque-1);
+    --dc-userarea-background-secondary: var(--dc-opaque-2);
     --dc-spacing: 20px;
     --dc-roundness: 20px;
 
@@ -19,13 +20,20 @@
     --rs-medium-width: 4px;
     --rs-large-width: 3px;
     --rs-avatar-shape: 50%;
-    --rs-online-color: #00aa00;
-    --rs-idle-color: #aaaa00;
+    --rs-online-color: #008800;
+    --rs-idle-color: #ffff00;
     --rs-dnd-color: #aa2222;
-    --rs-offline-color: #777;
+    --rs-offline-color: #556;
     --rs-streaming-color: #643da7;
     --rs-phone-color: var(--rs-online-color);
     --rs-phone-visible: none;
+
+    --spotify: rgb(30, 215, 96);
+}
+
+/* Remove stupid lighting issues */
+[class*=form]:before, [class*=children]::after {
+    display: none !important;
 }
 
 /*
@@ -38,8 +46,9 @@
 
 [class^="nitroBadgeSvg"] {
     content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cg%3E%3Cpath d='M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z' fill='rgb(29, 155, 240)'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
-    width: 1rem;
-    height: 1rem;
+    width: 21px;
+    height: 21px;
+    vertical-align: text-top;
 }
 
 /*
@@ -52,11 +61,14 @@
 
 [class^="bg"] {
     background: url("https://raw.githubusercontent.com/coolesding/shiggycord/v3/img/snow.gif") !important;
-    background-repeat: repeat;
+    background-size: 10% !important;
+    background-repeat: repeat !important;
+    opacity: 0.7;
+    transform: rotate(15deg) scale(1.42);
 }
 
-[class^=childWrapper], [class*=guilds], [class^=circleIconButton], [class^=scroller], [class^=typeWindows], [class^=folder], [class^=folderIconWrapper], [class^=expandedFolderBackground] {
-    background: none !important;
+[aria-label="Servers sidebar"] {
+    background: transparent !important;
 }
 
 [class^=wordmarkWindows], [class^=winButton], [class^=circleIcon] {
@@ -70,7 +82,6 @@ body, #app-mount {
 /*
  * ----------------------------------------------------------------------------------------------------
  * Channel List
- * Add spacing between conatiners.
  * ----------------------------------------------------------------------------------------------------
 */
 
@@ -80,12 +91,12 @@ body, #app-mount {
     /* Channel List */
     [class*=sidebar] {
         background: transparent !important;
-        padding: 0px calc(var(--dc-spacing)/2) var(--dc-spacing) calc(var(--dc-spacing)/2);
+        padding: calc(var(--dc-spacing)/4) calc(var(--dc-spacing)/2) var(--dc-spacing) calc(var(--dc-spacing)/2);
         width: 240px;
 
         /* Server Header */
         [aria-label*=server] {
-            background: var(--dc-userarea-background) !important;
+            background: var(--dc-userarea-background-primary) !important;
             border-radius: var(--dc-roundness) var(--dc-roundness) 0px 0px;
 
             [aria-label*="server actions"] {
@@ -105,9 +116,21 @@ body, #app-mount {
             }
         }
 
+        [aria-label*="channel"] {
+            border-radius: var(--dc-roundness);
+        }
+
+        #vc-spotify-player, [id*="vc-spotify-player"] {
+            background: transparent !important;
+
+            [class*=barFill] {
+                background: var(--spotify) !important;
+            }
+        }
+
         /* User Area */
         [aria-label*="User area"] {
-            background: var(--dc-userarea-background) !important;
+            background: var(--dc-userarea-background-primary) !important;
             border-radius: 0px 0px var(--dc-roundness) var(--dc-roundness);
 
             [class*=container] {
@@ -115,5 +138,111 @@ body, #app-mount {
             }
         }
     }
+}
 
+/*
+ * ----------------------------------------------------------------------------------------------------
+ * Channel and Member List
+ * ----------------------------------------------------------------------------------------------------
+*/
+
+[class*=base] {
+
+    /* Chat Container */
+    [class*=chat__52833] {
+        background: transparent !important;
+        padding: calc(var(--dc-spacing)/4) var(--dc-spacing) var(--dc-spacing) calc(var(--dc-spacing)/2);
+
+        /* Chat Header */
+        [aria-label*="Channel header"] {
+            background: var(--dc-userarea-background-primary) !important;
+            border-radius: var(--dc-roundness) var(--dc-roundness) 0px 0px;
+        }
+        
+        /* Chat Body */
+        [class*=content__1a4fe] {
+            background: var(--dc-userarea-background-primary) !important;
+            border-radius: 0px 0px var(--dc-roundness) var(--dc-roundness);
+        }
+
+        [class*=content__1a4fe]::before {
+            display: none;
+        }
+
+        [class*=chatContent] {
+            background: transparent !important;
+        }
+
+        /* Member List */
+        [class*=container_b2ce9c], [class*=container_b2ce9c] [class*=members], [class*=container_b2ce9c] [class*=member] {
+            background: transparent !important;
+            border-radius: var(--dc-roundness);
+        }
+
+        [class*=member_aa4760]:hover {
+            background: var(--dc-userarea-background-secondary) !important;
+        }
+
+        [class*=form__13a2c] {
+            [class*=channelTextArea] {
+                background: var(--dc-userarea-background-secondary) !important;
+            }
+
+            [class*=themedBackground] {
+                background: transparent !important;
+            }
+        }
+    }
+}
+
+/*
+ * ----------------------------------------------------------------------------------------------------
+ * Warnings
+ * ----------------------------------------------------------------------------------------------------
+*/
+
+[class*=layer__2efaa] {
+    [class*=headings__6a24e]::before {
+        align-items: center;
+        animation: glowRed 3s ease-in-out infinite;
+        border-radius: var(--dc-roundness);
+        box-sizing: border-box;
+        box-shadow: red 0px 0px 10px;
+        content: "WARNING! Colored themes are not fully supported right now. It is recommended that you use Dark mode.";
+        color: var(--header-primary);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        margin: 10px 0px;
+        vertical-align: baseline;
+    }
+
+    [class*=themeSelection__6014a] {
+        cursor: default;
+    }
+}
+/*
+ * ----------------------------------------------------------------------------------------------------
+ * Animations
+ * ----------------------------------------------------------------------------------------------------
+*/
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes glowRed {
+    from, to {
+        box-shadow: red 0px 0px 10px;
+    }
+
+    45%, 55% {
+        box-shadow: transparent 0px 0px 10px;
+    }
 }
